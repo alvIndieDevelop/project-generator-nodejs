@@ -10,7 +10,7 @@
     "build": "tsc && shx rm -rf dist/templates && shx cp -r src/templates dist"
   },
   "bin": {
-    "generator": "./index.js"
+    "generator": "./dist/index.js"
   },
   "keywords": [],
   "author": "",
