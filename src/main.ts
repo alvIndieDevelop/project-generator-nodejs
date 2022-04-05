@@ -119,6 +119,13 @@ const postProcess = (options: IOptions): boolean => {
     return true;
   }
 
+  if (options.templateName === "create-react-app-typescript") {
+    shell.exec(
+      "npx create-react-app " + options.projectName + " --template typescript"
+    );
+    return true;
+  }
+
   const isNode = fs.existsSync(path.join(options.templateName, "package.json"));
   if (isNode) {
     shell.cd(options.targetPath);
