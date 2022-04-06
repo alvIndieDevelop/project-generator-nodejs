@@ -126,9 +126,11 @@ const postProcess = (options: IOptions): boolean => {
     return true;
   }
 
-  const isNode = fs.existsSync(path.join(options.templateName, "package.json"));
+  const isNode = fs.existsSync(path.join(options.targetPath, "package.json"));
+
   if (isNode) {
     shell.cd(options.targetPath);
+    console.log("Installing dependencies...");
     const result = shell.exec("npm install");
     if (result.code !== 0) {
       console.log("Error installing dependencies");
