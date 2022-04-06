@@ -27,7 +27,7 @@ const Home = () => {
           color="text.primary"
           gutterBottom
         >
-          {t("Welcome")}
+          {t("welcome")}
         </Typography>
         <Stack
           sx={{ pt: 4 }}
