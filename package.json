@@ -1,6 +1,6 @@
 {
   "name": "@alvindiedevelop/project-generator-nodejs",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "repository": "https://github.com/alvIndieDevelop/project-generator-nodejs",
