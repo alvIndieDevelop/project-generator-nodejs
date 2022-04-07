@@ -1,8 +1,9 @@
 {
   "name": "@alvindiedevelop/project-generator-nodejs",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
+  "repository": "https://github.com/alvIndieDevelop/project-generator-nodejs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/index.js",
