@@ -21,8 +21,6 @@ execute
 
 Select what type of project you want, and it will create the project.
 
-- **create-react-app**: this just run the npx create-react-app
-- **create-react-app-typescript**: this just run npx create-react-app --template typescript
 - **create-react-app-redux-mui-react-router-i18n**: create a builerplate bootrstraped with create-react-app but have:
   - [Redux (@reduxjs/toolkit)](https://redux-toolkit.js.org/)
   - i18n for Internationalization
