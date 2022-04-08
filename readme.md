@@ -21,14 +21,17 @@ execute
 
 Select what type of project you want, and it will create the project.
 
-- **create-react-app-redux-mui-react-router-i18n**: create a builerplate bootrstraped with create-react-app but have:
-  - [Redux (@reduxjs/toolkit)](https://redux-toolkit.js.org/)
-  - i18n for Internationalization
-    - [i18next](https://www.i18next.com/)
-    - [react-i18next](https://react.i18next.com/) - Wrapper for React.
-    - [i18next-browser-languagedetector](https://www.npmjs.com/package/i18next-browser-languagedetector) - for lenguage detector.
-  - [react-router-dom](https://reactrouterdotcom.fly.dev/docs/en/v6/getting-started/installation)
-  - [Material-UI/MUI](https://mui.com/)
+- react
+  - **create-react-app-redux-mui-react-router-i18n**: create a builerplate bootrstraped with create-react-app but have:
+    - [Redux (@reduxjs/toolkit)](https://redux-toolkit.js.org/)
+    - i18n for Internationalization
+      - [i18next](https://www.i18next.com/)
+      - [react-i18next](https://react.i18next.com/) - Wrapper for React.
+      - [i18next-browser-languagedetector](https://www.npmjs.com/package/i18next-browser-languagedetector) - for lenguage detector.
+    - [react-router-dom](https://reactrouterdotcom.fly.dev/docs/en/v6/getting-started/installation)
+    - [Material-UI/MUI](https://mui.com/)
+- nextjs
+  - **next-app**: project bootstrapped with create-next-app.
 
 ### Build from source code
 
