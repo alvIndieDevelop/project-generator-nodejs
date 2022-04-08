@@ -151,18 +151,6 @@ const createDirectoryContent = (
 };
 
 const postProcess = (options: IOptions): boolean => {
-  if (options.templateName === "create-react-app") {
-    shell.exec("npx create-react-app " + options.projectName);
-    return true;
-  }
-
-  if (options.templateName === "create-react-app-typescript") {
-    shell.exec(
-      "npx create-react-app " + options.projectName + " --template typescript"
-    );
-    return true;
-  }
-
   const isNode = fs.existsSync(path.join(options.targetPath, "package.json"));
 
   if (isNode) {
