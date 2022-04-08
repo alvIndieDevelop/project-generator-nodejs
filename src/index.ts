@@ -15,59 +15,96 @@ interface IOptions {
 }
 
 // read all subfolders from templates
-const CHOICES: string[] = fs.readdirSync(path.join(__dirname, "templates"));
+const projectTypeChoices: string[] = fs.readdirSync(
+  path.join(__dirname, "templates")
+);
+
+const getProjectName = (type: string) => {
+  const choices: string[] = fs.readdirSync(
+    path.join(__dirname, `templates/${type}`)
+  );
+  return choices;
+};
 
 const CURR_DIR: string = process.cwd();
 
 // questions to generate in cli
-const QUESTIONS = [
-  {
-    name: "project-choice",
-    type: "list",
-    message: "What project template would you like to generate?",
-    choices: CHOICES,
-  },
-  {
-    name: "project-name",
-    type: "input",
-    message: "Project name:",
-    validate: validateInput,
-  },
-];
+// const QUESTIONS = [
+//   {
+//     name: "project-choice",
+//     type: "list",
+//     message: "What project template would you like to generate?",
+//     choices: projectTypeChoices,
+//   },
+//   {
+//     name: "project-name",
+//     type: "input",
+//     message: "Project name:",
+//     validate: validateInput,
+//   },
+// ];
 
-// show question to cli
-inquirer.prompt(QUESTIONS).then((answers) => {
-  if (answers["projectType"] === "python") {
-    console.log("Python project not yet supported");
-    return;
-  }
+inquirer
+  .prompt([
+    {
+      name: "project-type",
+      type: "list",
+      message: "What project template would you like to generate?",
+      choices: projectTypeChoices,
+    },
+  ])
+  .then((answers) => {
+    const projectType = answers["project-type"];
+    const projectName = getProjectName(projectType);
 
-  // get the project choice
-  const projectChoice: string = answers["project-choice"];
-  // get the project name
-  const projectName: string = answers["project-name"];
-  // get the project template path
-  const templatePath: string = path.join(__dirname, "templates", projectChoice);
-  // get target path
-  const targetPath: string = path.join(CURR_DIR, projectName);
+    inquirer
+      .prompt([
+        {
+          name: "project-choice",
+          type: "list",
+          message: "What project template would you like to generate?",
+          choices: projectName,
+        },
+        {
+          name: "project-name",
+          type: "input",
+          message: "Project name:",
+          validate: validateInput,
+        },
+      ])
+      .then((answers) => {
+        // get the project choice
+        const projectChoice: string = answers["project-choice"];
+        // get the project name
+        const projectName: string = answers["project-name"];
+        // get the project template path
+        const templatePath: string = path.join(
+          __dirname,
+          "templates",
+          projectType,
+          projectChoice
+        );
+        // get target path
+        const targetPath: string = path.join(CURR_DIR, projectName);
 
-  // options
-  const options: IOptions = {
-    projectName,
-    templateName: projectChoice,
-    templatePath,
-    targetPath,
-  };
+        // options
+        const options: IOptions = {
+          projectName,
+          templateName: projectChoice,
+          templatePath,
+          targetPath,
+        };
 
-  // create the project
-  if (!createProject(targetPath)) return;
+        // create the project
+        if (!createProject(targetPath)) return;
 
-  // create the directory contents
-  createDirectoryContent(templatePath, projectName);
+        // create the directory contents
+        createDirectoryContent(templatePath, projectName);
 
-  // post process
-  postProcess(options);
-});
+        // post process
+        postProcess(options);
+      });
+  });
 
 // create the folder with name
 const createProject = (targetPath: string) => {
