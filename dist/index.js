@@ -34,51 +34,78 @@ const shell = __importStar(require("shelljs"));
 // utils
 const utils_1 = require("./utils");
 // read all subfolders from templates
-const CHOICES = fs_1.default.readdirSync(path_1.default.join(__dirname, "templates"));
+const projectTypeChoices = fs_1.default.readdirSync(path_1.default.join(__dirname, "templates"));
+const getProjectName = (type) => {
+    const choices = fs_1.default.readdirSync(path_1.default.join(__dirname, `templates/${type}`));
+    return choices;
+};
 const CURR_DIR = process.cwd();
 // questions to generate in cli
-const QUESTIONS = [
+// const QUESTIONS = [
+//   {
+//     name: "project-choice",
+//     type: "list",
+//     message: "What project template would you like to generate?",
+//     choices: projectTypeChoices,
+//   },
+//   {
+//     name: "project-name",
+//     type: "input",
+//     message: "Project name:",
+//     validate: validateInput,
+//   },
+// ];
+inquirer_1.default
+    .prompt([
     {
-        name: "project-choice",
+        name: "project-type",
         type: "list",
         message: "What project template would you like to generate?",
-        choices: CHOICES,
+        choices: projectTypeChoices,
     },
-    {
-        name: "project-name",
-        type: "input",
-        message: "Project name:",
-        validate: utils_1.validateInput,
-    },
-];
-// show question to cli
-inquirer_1.default.prompt(QUESTIONS).then((answers) => {
-    if (answers["projectType"] === "python") {
-        console.log("Python project not yet supported");
-        return;
-    }
-    // get the project choice
-    const projectChoice = answers["project-choice"];
-    // get the project name
-    const projectName = answers["project-name"];
-    // get the project template path
-    const templatePath = path_1.default.join(__dirname, "templates", projectChoice);
-    // get target path
-    const targetPath = path_1.default.join(CURR_DIR, projectName);
-    // options
-    const options = {
-        projectName,
-        templateName: projectChoice,
-        templatePath,
-        targetPath,
-    };
-    // create the project
-    if (!createProject(targetPath))
-        return;
-    // create the directory contents
-    createDirectoryContent(templatePath, projectName);
-    // post process
-    postProcess(options);
+])
+    .then((answers) => {
+    const projectType = answers["project-type"];
+    const projectName = getProjectName(projectType);
+    inquirer_1.default
+        .prompt([
+        {
+            name: "project-choice",
+            type: "list",
+            message: "What project template would you like to generate?",
+            choices: projectName,
+        },
+        {
+            name: "project-name",
+            type: "input",
+            message: "Project name:",
+            validate: utils_1.validateInput,
+        },
+    ])
+        .then((answers) => {
+        // get the project choice
+        const projectChoice = answers["project-choice"];
+        // get the project name
+        const projectName = answers["project-name"];
+        // get the project template path
+        const templatePath = path_1.default.join(__dirname, "templates", projectType, projectChoice);
+        // get target path
+        const targetPath = path_1.default.join(CURR_DIR, projectName);
+        // options
+        const options = {
+            projectName,
+            templateName: projectChoice,
+            templatePath,
+            targetPath,
+        };
+        // create the project
+        if (!createProject(targetPath))
+            return;
+        // create the directory contents
+        createDirectoryContent(templatePath, projectName);
+        // post process
+        postProcess(options);
+    });
 });
 // create the folder with name
 const createProject = (targetPath) => {
@@ -114,15 +141,8 @@ const createDirectoryContent = (templatePath, newProjectPath) => {
     });
 };
 const postProcess = (options) => {
-    if (options.templateName === "create-react-app") {
-        shell.exec("npx create-react-app " + options.projectName);
-        return true;
-    }
-    if (options.templateName === "create-react-app-typescript") {
-        shell.exec("npx create-react-app " + options.projectName + " --template typescript");
-        return true;
-    }
     const isNode = fs_1.default.existsSync(path_1.default.join(options.targetPath, "package.json"));
+    console.log(options.targetPath);
     if (isNode) {
         shell.cd(options.targetPath);
         console.log("Installing dependencies...");
