@@ -142,7 +142,6 @@ const createDirectoryContent = (templatePath, newProjectPath) => {
 };
 const postProcess = (options) => {
     const isNode = fs_1.default.existsSync(path_1.default.join(options.targetPath, "package.json"));
-    console.log(options.targetPath);
     if (isNode) {
         shell.cd(options.targetPath);
         console.log("Installing dependencies...");
